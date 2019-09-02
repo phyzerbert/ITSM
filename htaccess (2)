@@ -1,0 +1,12 @@
+RewriteEngine on
+RewriteCond %{HTTPS} off
+RewriteCond %{HTTP:X-Forwarded-SSL} !on
+RewriteCond %{HTTP_HOST} ^mysgovbnm\.com$ [OR]
+RewriteCond %{HTTP_HOST} ^www\.mysgovbnm\.com$
+RewriteRule ^/?$ "https\:\/\/mysgovbnm\.com\/" [R=301,L]
+
+RewriteCond %{HTTP_HOST} ^mysgovbnm.com$ [NC,OR]
+RewriteCond %{HTTP_HOST} ^www.mysgovbnm.com$
+RewriteCond %{REQUEST_URI} !public/
+RewriteRule (.*) /public/$1 [L]
+
