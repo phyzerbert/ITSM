@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Group;
 use Auth;
 use Hash;
 
@@ -14,15 +15,10 @@ class UserController extends Controller
         if($user->role != 'Admin')return back()->with('success', "You can't access to this page.");
         $users = User::paginate(10);
         $current_page = 'user';
-        if(null !== $request->get('page')){
-            $page_number = $request->get('page');
-        }else{
-            $page_number = 1;
-        }
         
         $data = array(
             'users' => $users,
-            'page_number' => $page_number,
+            'groups' => Group::all(),
             'current_page' => $current_page
         );
         return view('users', $data);
@@ -73,7 +69,8 @@ class UserController extends Controller
             'firstname'=>'required',
             'lastname'=>'required',
             'phone'=>'required',
-            'gender'=>'required'
+            'gender'=>'required',
+            'password'=>'confirmed'
         ]);
         $user = User::find($request->get("id"));
         $user->name = $request->get("name");
@@ -82,6 +79,7 @@ class UserController extends Controller
         $user->phone = $request->get("phone");
         $user->role = $request->get("role");
         $user->gender = $request->get("gender");
+        $user->group_id = $request->get("group_id");
 
         if($request->get('newpassword') != ''){
             $user->password = Hash::make($request->get('newpassword'));
@@ -113,6 +111,7 @@ class UserController extends Controller
             'lastname' => $request->get('lastname'),
             'phone' => $request->get('phone'),
             'role' => $request->get('role'),
+            'group_id' => $request->get('group_id'),
             'password' => Hash::make($request->get('password'))
         ]);
         return response()->json('success');

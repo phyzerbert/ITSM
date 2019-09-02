@@ -13,23 +13,23 @@
         <div class="row">
             <div class="col-md-12 mx-auto">
                 <div class="tile">
-                    <div class="tile-header">                     
+                    <div class="tile-header clearfix">                     
                         <h3 class="tile-title">Report Incidents</h3>                    
-                        <form class="form-inline" id="search_form" action="" method="POST">
+                        <form class="form-inline float-left" id="search_form" action="" method="POST">
                             @csrf
                             <input class="form-control form-control-sm ml-3" type="text" id="username" name="username" value="{{$username}}" placeholder="User ID">
                             <select class="form-control form-control-sm ml-2" id="status" name="status">
                                 <option value="">Status</option>
-                                <option value="0" @if($status == 0) selected @endif>Pending</option>
-                                <option value="1" @if($status == 1) selected @endif>Working In Process</option>
-                                <option value="2" @if($status == 2) selected @endif>Resolved</option>
+                                <option value="0" @if($status == "0") selected @endif>Pending</option>
+                                <option value="1" @if($status == "1") selected @endif>Working In Process</option>
+                                <option value="2" @if($status == "2") selected @endif>Resolved</option>
                             </select>
                             <input class="form-control form-control-sm ml-2" type="text" id="opened_at" name="opened_at" value="{{$opened_at}}" autocomplete="off" placeholder="Opened Date" />
                             <input class="form-control form-control-sm ml-2" type="text" id="resolved_at" name="resolved_at" value="{{$resolved_at}}" autocomplete="off" placeholder="Resolved Date" />
-                            <button class="btn btn-primary btn-sm ml-4" type="submit" onclick="search()"><i class="fa fa-fw fa-lg fa-search"></i>Search</button>                            
-                            <button class="btn btn-info btn-sm ml-4" type="button" id="btn-export"><i class="fa fa-fw fa-lg fa-file-excel-o"></i>Export</button>                            
-                            <button class="btn btn-danger btn-sm ml-4" type="button" id="btn-reset"><i class="fa fa-fw fa-lg fa-eraser"></i>Reset</button>                            
+                            <button class="btn btn-primary btn-sm ml-4" type="submit" onclick="search()"><i class="fa fa-fw fa-lg fa-search"></i>Search</button>                           
+                            <button class="btn btn-danger btn-sm ml-4" type="button" id="btn-reset"><i class="fa fa-fw fa-lg fa-eraser"></i>Reset</button>                           
                         </form>                       
+                        <button class="btn btn-info btn-sm ml-4 float-right" type="button" id="btn-export"><i class="fa fa-fw fa-lg fa-file-excel-o"></i>Export</button>                              
                     </div>
                     <div class="tile-body mt-3">
                         @csrf
@@ -70,10 +70,10 @@
                                                     <span class="badge badge-success">Resolve</span>                                                     
                                                 @endif
                                             </td>
-                                            <td class=""></td>
-                                            <td class=""></td>
+                                            <td class="">@isset($item->group->name){{$item->group->name}}@endisset</td>
+                                            <td class="">@isset($item->resolved_user->name){{$item->resolved_user->name}}@endisset</td>
                                             <td class="opened_at">{{date('m/d/Y H:i', strtotime($item->created_at))}}</td>
-                                            <td class=""></td>
+                                            <td class="">@if($item->resolved_at){{date('m/d/Y H:i', strtotime($item->resolved_at))}}@endif</td>
                                         </tr>
                                     @endforeach                 
                                 </tbody>
@@ -99,6 +99,9 @@
     <script src="{{asset('main/js/plugins/daterangepicker/moment.min.js')}}"></script>
     <script src="{{asset('main/js/plugins/daterangepicker/jquery.daterangepicker.min.js')}}"></script>
     <script>
+        function search(){
+            $("#search_form").attr('action', '');
+        }
         $(function(){
             $("#opened_at").dateRangePicker();
             $("#resolved_at").dateRangePicker();

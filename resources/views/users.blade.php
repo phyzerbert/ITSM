@@ -10,7 +10,7 @@
         <li class="breadcrumb-item"><a href="#">Users</a></li>
     </ul>
 </div>
-<div class="container">
+<div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
             <div class="tile">
@@ -28,19 +28,21 @@
                                 <th>Gender</th>
                                 <th>Phone</th>
                                 <th>Role</th>
+                                <th>Group</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($users as $user)
                             <tr>
-                                <td>{{ ($page_number-1) * 10 + $loop->index+1 }}</td>
+                                <td>{{ (($users->currentPage() - 1 ) * $users->perPage() ) + $loop->iteration }}</td>
                                 <td class="username">{{$user->name}}</td>
                                 <td class="firstname">{{$user->firstname}}</td>
                                 <td class="lastname">{{$user->lastname}}</td>
                                 <td class="gender">{{$user->gender}}</td>
                                 <td class="phone">{{$user->phone}}</td>
                                 <td class="role">{{$user->role}}</td>
+                                <td class="group" data-id="{{$user->group_id}}">@isset($user->group->name){{$user->group->name}}@endisset</td>
                                 <td class="py-2">
                                     <a href="{{route('user.delete', $user->id)}}" class="btn btn-primary btn-sm btn-delete" onclick="return confirm('Are you sure?');" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Delete"><i class="fa fa-trash-o" style="font-size:20px"></i>&nbsp;Delete</a>
                                     <a href="#" class="btn btn-info btn-sm btn-edit" data-value="{{$user->id}}" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Edit"><i class="fa fa-edit" style="font-size:20px"></i>Edit</a>
@@ -118,6 +120,16 @@
                         <select class="form-control" name="role" id="role">
                             <option value="User">User</option>
                             <option value="Admin">Administrator</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="control-label">Group</label>
+                        <select class="form-control" name="group_id" id="group_id">
+                            <option value="">Select Group</option>
+                            @foreach ($groups as $item)
+                                <option value="{{$item->id}}">{{$item->name}}</option>
+                            @endforeach
                         </select>
                     </div>
 
@@ -204,6 +216,17 @@
                         <span id="edit_role_error" class="invalid-feedback">
                             <strong></strong>
                         </span>
+                    </div>
+
+                    
+                    <div class="form-group">
+                        <label class="control-label">Group</label>
+                        <select class="form-control" name="group_id" id="edit_group_id">
+                            <option value="">Select Group</option>
+                            @foreach ($groups as $item)
+                                <option value="{{$item->id}}">{{$item->name}}</option>
+                            @endforeach
+                        </select>
                     </div>
 
                     <div class="form-group password-field">
@@ -302,6 +325,7 @@
             let phone = $(this).parents('tr').find(".phone").text().trim();
             let gender = $(this).parents('tr').find(".gender").text().trim();
             let role = $(this).parents('tr').find(".role").text().trim();            
+            let group_id = $(this).parents('tr').find(".group").data('id');            
 
             $("#edit_form input.form-control").val('');
             $("#editModal #edit_id").val(user_id);
@@ -311,6 +335,7 @@
             $("#editModal #edit_gender").val(gender);
             $("#editModal #edit_phone").val(phone);
             $("#editModal #edit_role").val(role);  
+            $("#editModal #edit_group_id").val(group_id);  
 
 
             $("#editModal").modal();

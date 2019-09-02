@@ -12,6 +12,10 @@ class Incident extends Model
         return $this->belongsTo('App\User');
     }
 
+    public function resolved_user(){
+        return $this->belongsTo('App\User', 'resolved_user_id');
+    }
+
     public function group(){
         return $this->belongsTo('App\Group');
     }

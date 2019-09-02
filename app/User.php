@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','firstname', 'lastname', 'phone', 'role',
+        'name', 'email', 'password','firstname', 'lastname', 'phone', 'role', 'group_id',
     ];
 
     /**
@@ -36,5 +36,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function group(){
+        return $this->belongsTo('App\Group');
+    }
 
 }

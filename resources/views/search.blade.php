@@ -67,7 +67,7 @@
                                 <tbody>
                                     @foreach($incidents as $item)
                                         <tr>
-                                            <td>{{ ($page_number-1) * 10 + $loop->index+1 }}</td>
+                                            <td>{{ (($incidents->currentPage() - 1 ) * $incidents->perPage() ) + $loop->iteration }}</td>
                                             <td class="username">@isset($item->user) {{$item->user->name}} @endisset</td>
                                             <td class="firstname">@isset($item->user) {{$item->user->firstname}} @endisset</td>
                                             <td class="lastname">@isset($item->user) {{$item->user->lastname}} @endisset</td>

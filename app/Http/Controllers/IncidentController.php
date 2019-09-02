@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Incident;
 use App\User;
 use Auth;
+use App\Exports\IncidentsExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 class IncidentController extends Controller
 {
     public function __construct()
@@ -116,6 +119,10 @@ class IncidentController extends Controller
         $data = $request->all();
         $incident->status = $data['status'];
         $incident->comment = $data['comment'];
+        if($data['status'] == '2'){
+            $incident->resolved_user_id = Auth::user()->id;
+            $incident->resolved_at = date('Y-m-d H:i:s');
+        }
         $incident->save();
         return back()->with('success', 'Response successfully.');
     }
@@ -136,7 +143,7 @@ class IncidentController extends Controller
         }
 
         if ($request->get('opened_at') != ""){
-            $opened_at = $request->get('expiry_period');
+            $opened_at = $request->get('opened_at');
             $from = substr($opened_at, 0, 10);
             $to = substr($opened_at, 14, 10);
             $mod = $mod->whereBetween('created_at', [$from, $to]);
@@ -154,7 +161,36 @@ class IncidentController extends Controller
     }
 
     public function export(Request $request) {
-        dump($request->all());
+        // dump($request->all());
+        $mod = new Incident();
+        $username = $status = $opened_at = $resolved_at = '';
+        if ($request->get('username') != ""){
+            $username = $request->get('username');
+            $user_array = User::where('name', 'like', "%$username%")->pluck('id');
+            $mod = $mod->whereIn('user_id', $user_array);
+        }
+
+        if ($request->get('status') != ""){
+            $status = $request->get('status');
+            $mod = $mod->where('status', $status);
+        }
+
+        if ($request->get('opened_at') != ""){
+            $opened_at = $request->get('opened_at');
+            $from = substr($opened_at, 0, 10);
+            $to = substr($opened_at, 14, 10);
+            $mod = $mod->whereBetween('created_at', [$from, $to]);
+        }
+        
+        if ($request->get('resolved_at') != ""){
+            $resolved_at = $request->get('resolved_at');
+            $from = substr($resolved_at, 0, 10);
+            $to = substr($resolved_at, 14, 10);
+            $mod = $mod->whereBetween('resolved_at', [$from, $to]);
+        }
+
+        $data = $mod->get();
+        return Excel::download(new IncidentsExport($data), 'incidents_report.xlsx');
     }
     
 }
