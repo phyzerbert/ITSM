@@ -7,9 +7,10 @@
 </section>
 
 <section class="login-content">
-    <a href="{{ url('/') }}" style="text-decoration:none;">
-        <div class="logo">
-            <h1>Bolton IT Help Desk</h1>
+    <a href="{{ url('/') }}" class="logo" style="text-decoration:none;">
+        <div>
+            <img src="{{asset('images/logo.png')}}" class="pull-left" width="150" alt="" title="" />
+            <span class="text-white" style="font-size:30px;font-weight:600;line-height:2.3;">&nbsp;Enterprise Incident Management</span>
         </div>
     </a>
     <div class="login-box" style="min-height:450px">
@@ -18,10 +19,10 @@
             @csrf
             <div class="form-group">
                 <label class="control-label">USER ID</label>
-                <input id="email" type="text" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" placeholder="UserID" required autofocus>
-                @if ($errors->has('email'))
+                <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" placeholder="UserID" required autofocus>
+                @if ($errors->has('name'))
                     <span class="invalid-feedback" role="alert">
-                        <strong>{{ $errors->first('email') }}</strong>
+                        <strong>{{ $errors->first('name') }}</strong>
                     </span>
                 @endif
             </div>

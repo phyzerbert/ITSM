@@ -45,21 +45,18 @@
     <header id="header">
         <div class="container-fluid">
 
-            <div id="logo" class="pull-left">
-                <h1>
-                    <a href="{{route('home')}}" class="scrollto" style="border: none">University of Bolton<br />&nbsp;I&nbsp;T&nbsp;&nbsp; H&nbsp;e&nbsp;l&nbsp;p&nbsp;&nbsp; D&nbsp;e&nbsp;s&nbsp;k</a>
-                </h1>
-                <!-- Uncomment below if you prefer to use an image logo -->
-                <!-- <a href="#intro"><img src="{{asset('front/img/logo.png')}}" alt="" title="" /></a>-->
+            <div id="logo" class="pull-left" style="margin-top:-15px;">
+                <a class="scrollto" href="{{route('home')}}">
+                    <img src="{{asset('images/logo.png')}}" class="pull-left" width="150" alt="" title="" />
+                    <span class="text-white" style="font-size:30px;font-weight:600">&nbsp;IT Help Desk</span>
+                </a>
             </div>
 
             <nav id="nav-menu-container">
                 <ul class="nav-menu">
-                    {{-- <li class="menu-active"><a href="#intro">Home</a></li> --}}
                     <li><a href="/">Home</a></li>
                     @guest
                         <li><a href="{{ route('login') }}">Login</a></li>
-                        <!--<li><a href="{{ route('register') }}">Register</a></li>-->
                     @else
                         <li><a href="{{ route('profile') }}">{{ Auth::user()->name }}</a></li>
                         <li><a href="{{ route('logout') }}" onclick="event.preventDefault();
@@ -69,13 +66,10 @@
                         </form>
                     @endguest
                 </ul>
-            </nav><!-- #nav-menu-container -->
+            </nav>
         </div>
-    </header><!-- #header -->
-
-    <!--==========================
-    Intro Section
-  ============================-->
+    </header>
+    
     <section id="intro">
         <div class="intro-container">
             <div id="introCarousel" class="carousel  slide carousel-fade" data-ride="carousel">
@@ -154,79 +148,17 @@
 
             </div>
         </div>
-    </section><!-- #intro -->
+    </section>
 
     <main id="main">
-
-        <!--==========================
-      About Us Section
-    ============================-->
         <section id="about">
             <div class="container">
-
                 <header class="section-header">
                     <h3>IT help desk software</h3>
                     <p>Bolton IT HelpDesk is a game changer in turning IT teams from daily fire-fighting to delivering awesome customer service. It provides great visibility and central control in dealing with IT issues to ensure that businesses suffer no downtime. For 10 years and running, it has been delivering smiles to millions of IT folks, end users, and stakeholders alike.</p>
-                {{-- </header>
-
-                <div class="row about-cols">
-
-                    <div class="col-md-4 wow fadeInUp">
-                        <div class="about-col">
-                            <div class="img">
-                                <img src="{{asset('front/img/about-mission.jpg')}}" alt="" class="img-fluid">
-                                <div class="icon"><i class="ion-ios-speedometer-outline"></i></div>
-                            </div>
-                            <h2 class="title"><a href="#">Our Mission</a></h2>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur elit, sed do eiusmod tempor ut labore et dolore
-                                magna aliqua. Ut
-                                enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                commodo consequat.
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 wow fadeInUp" data-wow-delay="0.1s">
-                        <div class="about-col">
-                            <div class="img">
-                                <img src="{{asset('front/img/about-plan.jpg')}}" alt="" class="img-fluid">
-                                <div class="icon"><i class="ion-ios-list-outline"></i></div>
-                            </div>
-                            <h2 class="title"><a href="#">Our Plan</a></h2>
-                            <p>
-                                Sed ut perspiciatis unde omnis iste natus error sit voluptatem doloremque laudantium,
-                                totam rem aperiam,
-                                eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt
-                                explicabo.
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 wow fadeInUp" data-wow-delay="0.2s">
-                        <div class="about-col">
-                            <div class="img">
-                                <img src="{{asset('front/img/about-vision.jpg')}}" alt="" class="img-fluid">
-                                <div class="icon"><i class="ion-ios-eye-outline"></i></div>
-                            </div>
-                            <h2 class="title"><a href="#">Our Vision</a></h2>
-                            <p>
-                                Nemo enim ipsam voluptatem quia voluptas sit aut odit aut fugit, sed quia magni dolores
-                                eos qui ratione
-                                voluptatem sequi nesciunt Neque porro quisquam est, qui dolorem ipsum quia dolor sit
-                                amet.
-                            </p>
-                        </div>
-                    </div>
-
-                </div> --}}
-
+                </header>
             </div>
-        </section><!-- #about -->
-
-        <!--==========================
-      Services Section
-    ============================-->
+        </section>
         <section id="services">
             <div class="container">
 

@@ -6,12 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Incident extends Model
 {
-    protected $fillable = [
-        'user_id', 'phone', 'urgency', 'description',
-    ];
+    protected $guarded = [];
 
     public function user(){
         return $this->belongsTo('App\User');
+    }
+
+    public function group(){
+        return $this->belongsTo('App\Group');
     }
     
 }

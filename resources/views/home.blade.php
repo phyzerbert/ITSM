@@ -24,7 +24,19 @@
                             <div class="form-group">
                                 <label class="control-label">Phone Number</label>
                                 <input class="form-control" type="text" name="phone" value="{{Auth::user()->phone}}" placeholder="Phone Number">
-                            </div>                            
+                            </div> 
+                            @php
+                                $groups = \App\Group::all();
+                            @endphp
+                            <div class="form-group">
+                                <label for="group" class="control-label">Group</label>
+                                <select name="group_id" id="group" class="form-control" required>
+                                    @foreach ($groups as $item)
+                                        <option value="{{$item->id}}" @if($item->name == 'IT HelpDesk') selected @endif>{{$item->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
                             <div class="form-group">
                                 <label class="control-label">Urgency</label>
                                 <div class="form-check">

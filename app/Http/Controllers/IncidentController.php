@@ -22,6 +22,7 @@ class IncidentController extends Controller
     public function create(Request $request){
         $request->validate([
             'description' => 'required|string',
+            'group_id' => 'required',
             'phone' => 'required|numeric'
         ]);
         $user = Auth::user();
@@ -31,28 +32,29 @@ class IncidentController extends Controller
 
         Incident::create([
             'user_id' => $user->id,
+            'group_id' => $request->get('group_id'),
             'phone' => $phone,
             'urgency' => $urgency,
             'description' => $description,
         ]);
 
-        return back()->with('success', 'Create Incident Successfully!');
+        return back()->with('success', 'Created Incident Successfully!');
     }
 
     public function search(Request $request){
         $user_mod = new User();
-        $username = $firstname = $lastname = $phone =  $description ='';
-        $urgency = [1,1];
-        // dump($request->all());die;
-        if ($request->has('username') && $request->get('username') != ""){
+        $username = $firstname = $lastname = $phone = $group_id = $description = '';
+        $urgency = [];
+        // dd($request->all());
+        if ($request->get('username') != ""){
             $username = $request->get('username');
             $user_mod = $user_mod->where('name', 'like', "%$username%");
         }
-        if ($request->has('firstname') && $request->get('firstname') != ""){
+        if ($request->get('firstname') != ""){
             $firstname = $request->get('firstname');
             $user_mod = $user_mod->where('firstname', 'like', "%$firstname%");
         }
-        if ($request->has('lastname') && $request->get('lastname') != ""){
+        if ($request->get('lastname') != ""){
             $lastname = $request->get('lastname');
             $user_mod = $user_mod->where('lastname', 'like', "%$lastname%");
         }
@@ -60,32 +62,28 @@ class IncidentController extends Controller
         $user_id_array = $user_mod->pluck('id');
         $incident_mod = new Incident();
         $incident_mod = $incident_mod->whereIn('user_id', $user_id_array);
-        $urgency = ["off","off"];
-        if($request->has('urgency_high') && $request->has('urgency_low')){
-            $urgency = ["on","on"];
-        }else{
-            if ($request->has('urgency_low')){
-                $urgency[0] = $request->get('urgency_low');
-                $incident_mod = $incident_mod->where('urgency', 0);
-            }
-            if ($request->has('urgency_high')){
-                $urgency[1] = $request->get('urgency_high');
-                $incident_mod = $incident_mod->where('urgency', 1);
-            }
+        
+        if($request->has('urgency') && $request->get('urgency') != ''){
+            $urgency = $request->get('urgency');
+            $incident_mod = $incident_mod->whereIn('urgency', $urgency);
         }
 
-        if ($request->has('phone') && $request->get('phone') != ""){
+        if ($request->get('phone') != ""){
             $phone = $request->get('phone');
             $incident_mod = $incident_mod->where('phone', 'like', "%$phone%");
         }
 
-        if ($request->has('description') && $request->get('description') != ""){
+        if ($request->get('group_id') != ""){
+            $group_id = $request->get('group_id');
+            $incident_mod = $incident_mod->where('group_id', "$group_id");
+        }
+
+        if ($request->get('description') != ""){
             $description = $request->get('description');
             $incident_mod = $incident_mod->where('description', 'like', "%$description%");
         }
 
         $incidents = $incident_mod->paginate(10);
-        // dump($incidents);
         $current_page = 'search';
         if(null !== $request->get('page')){
             $page_number = $request->get('page');
@@ -101,6 +99,7 @@ class IncidentController extends Controller
             'lastname' => $lastname,
             'urgency' => $urgency,
             'phone' => $phone,
+            'group_id' => $group_id,
             'description' => $description
         );
         return view('search', $data);
@@ -120,4 +119,42 @@ class IncidentController extends Controller
         $incident->save();
         return back()->with('success', 'Response successfully.');
     }
+
+    public function report(Request $request){
+        $current_page = 'report';
+        $mod = new Incident();
+        $username = $status = $opened_at = $resolved_at = '';
+        if ($request->get('username') != ""){
+            $username = $request->get('username');
+            $user_array = User::where('name', 'like', "%$username%")->pluck('id');
+            $mod = $mod->whereIn('user_id', $user_array);
+        }
+
+        if ($request->get('status') != ""){
+            $status = $request->get('status');
+            $mod = $mod->where('status', $status);
+        }
+
+        if ($request->get('opened_at') != ""){
+            $opened_at = $request->get('expiry_period');
+            $from = substr($opened_at, 0, 10);
+            $to = substr($opened_at, 14, 10);
+            $mod = $mod->whereBetween('created_at', [$from, $to]);
+        }
+        
+        if ($request->get('resolved_at') != ""){
+            $resolved_at = $request->get('resolved_at');
+            $from = substr($resolved_at, 0, 10);
+            $to = substr($resolved_at, 14, 10);
+            $mod = $mod->whereBetween('resolved_at', [$from, $to]);
+        }
+
+        $data = $mod->paginate(10);
+        return view('report', compact('data', 'current_page', 'username', 'status', 'opened_at', 'resolved_at'));
+    }
+
+    public function export(Request $request) {
+        dump($request->all());
+    }
+    
 }

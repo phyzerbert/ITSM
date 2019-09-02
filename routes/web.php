@@ -24,16 +24,21 @@ Route::post('/user/create', 'UserController@create')->name('user.create');
 Route::post('/user/edit', 'UserController@edituser')->name('user.edit');
 Route::get('/user/delete/{id}', 'UserController@delete')->name('user.delete');
 
+Route::get('/group/index', 'GroupController@index')->name('group.index');
+Route::post('/group/create', 'GroupController@create')->name('group.create');
+Route::post('/group/edit', 'GroupController@edit')->name('group.edit');
+Route::get('/group/delete/{id}', 'GroupController@delete')->name('group.delete');
+
 Route::get('/home', 'IncidentController@index')->name('home');
 Route::post('/incident/create', 'IncidentController@create')->name('incident.create');
 
-Route::get('/incident/search', 'IncidentController@search')->name('incident.search');
-Route::post('/incident/search', 'IncidentController@search')->name('incident.search');
+Route::any('/incident/search', 'IncidentController@search')->name('incident.search');
 Route::get('/incident/delete/{id}', 'IncidentController@delete')->name('incident.delete');
 Route::post('/incident/response', 'IncidentController@response')->name('incident.response');
+Route::any('/incident/report', 'IncidentController@report')->name('incident.report');
+Route::post('/incident/export', 'IncidentController@export')->name('incident.export');
 
-Route::get('/kdb/index', 'KdbController@index')->name('kdb.index');
-Route::post('/kdb/index', 'KdbController@index')->name('kdb.index');
+Route::any('/kdb/index', 'KdbController@index')->name('kdb.index');
 Route::get('/kdb/solution/{id}', 'KdbController@solution')->name('kdb.solution');
 Route::get('/kdb/create', 'KdbController@create')->name('kdb.create');
 Route::get('/kdb/delete/{id}', 'KdbController@delete')->name('kdb.delete');

@@ -20,76 +20,96 @@
                         <h3 class="tile-title">Search an Incident(s)</h3>                    
                         <form class="form-inline" id="search_form" action="{{route("incident.search")}}" method="POST">
                             @csrf
-                            <label class="control-label">User ID</label>
                             <input class="form-control form-control-sm ml-3" type="text" id="username" name="username" value="{{$username}}" placeholder="User ID">
-                            <label class="control-label ml-3">First Name</label>
                             <input class="form-control form-control-sm ml-3" type="text" id="firstname" name="firstname" value="{{$firstname}}" placeholder="First Name">
-                            <label class="control-label ml-3">Last Name</label>
                             <input class="form-control form-control-sm ml-3" type="text" id="lastname" name="lastname" value="{{$lastname}}" placeholder="Last Name">                        
-                            <label class="control-label ml-3">Phone Number</label>
                             <input class="form-control form-control-sm ml-2" type="text" id="phone" name="phone" value="{{$phone}}" placeholder="Phone Number">
-                            <label class="control-label ml-3">Description</label>
+                            @php
+                                $groups = \App\Group::all();
+                            @endphp
+                            <select class="form-control form-control-sm ml-2" id="group_id" name="group_id">
+                                <option value="">Select Group</option>
+                                @foreach ($groups as $item)
+                                    <option value="{{$item->id}}" @if($group_id == $item->id) selected @endif>{{$item->name}}</option>
+                                @endforeach
+                            </select>
                             <input class="form-control form-control-sm ml-2" type="text" id="description" name="description" value="{{$description}}" placeholder="Description" />
                             <label class="control-label ml-3">Urgency</label>
                             <label class="form-check-label ml-3">
-                                <input class="form-check-input" type="checkbox" id="urgency_low" name="urgency_low" @if ($urgency[0]=="on") checked @endif>Low
+                                <input class="form-check-input" type="checkbox" id="urgency_low" name="urgency[]" value="0" @if (in_array('0', $urgency)) checked @endif>Low
                             </label>
                             <label class="form-check-label ml-3">
-                                <input class="form-check-input" type="checkbox" id="urgency_high" name="urgency_high" @if ($urgency[1]=="on") checked @endif>High
+                                <input class="form-check-input" type="checkbox" id="urgency_high" name="urgency[]" value="1" @if (in_array('1', $urgency)) checked @endif>High
                             </label>
-                            <button class="btn btn-primary btn-sm ml-4" type="submit" onclick="search()"><i class="fa fa-fw fa-lg fa-search"></i>Search Now</button>
-                            
+                            <button class="btn btn-primary btn-sm ml-4" type="submit" onclick="search()"><i class="fa fa-fw fa-lg fa-search"></i>Search</button>                            
                         </form>                       
                     </div>
                     <div class="tile-body mt-3">
                         @csrf
-                        <table class="table table-hover table-bordered text-center" id="documentTable">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>User ID</th>
-                                    <th>First Name</th>
-                                    <th>Last Name</th>
-                                    <th>Phone Number</th>
-                                    <th>Urgency</th>
-                                    <th>Description</th>
-                                    <th>Status</th>
-                                    <th>Comment</th>
-                                    @if (Auth::user()->role == 'Admin')
-                                        <th>Action</th>
-                                    @endif
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($incidents as $item)
+                        <div class="table-responsive">
+                            <table class="table table-hover table-bordered text-center" id="documentTable">
+                                <thead>
                                     <tr>
-                                        <td>{{ ($page_number-1) * 10 + $loop->index+1 }}</td>
-                                        <td class="username">@isset($item->user) {{$item->user->name}} @endisset</td>
-                                        <td class="firstname">@isset($item->user) {{$item->user->firstname}} @endisset</td>
-                                        <td class="lastname">@isset($item->user) {{$item->user->lastname}} @endisset</td>
-                                        <td class="phone">@isset($item->user) {{$item->user->phone}} @endisset</td>
-                                        <td class="urgency">@if($item->urgency == "0") Low @else High @endif</td>
-                                        <td class="">{{$item->description}}</td>
-                                        <td class="status" data-value="{{$item->status}}">@if ($item->status == 0) Pending @elseif($item->status == 1) Work In Process @else Resolve @endif</td>
-                                        <td class="comment">{{$item->comment}}</td>
+                                        <th>No</th>
+                                        <th>User ID</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Phone Number</th>
+                                        <th>Urgency</th>
+                                        <th>Description</th>
+                                        <th>Status</th>
+                                        <th>Comment</th>
                                         @if (Auth::user()->role == 'Admin')
-                                            <td class="py-2">
-                                                <a href="{{route('incident.delete', $item->id)}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Delete" onclick="return confirm('Are you sure?');"><i class="fa fa-trash-o" style="font-size:18px"></i>Delete</a>
-                                                <a href="#" class="btn btn-primary btn-sm btn-response" data-id="{{$item->id}}" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Response"><i class="fa fa-edit" style="font-size:18px"></i>Response</a>
-                                            </td>
+                                            <th style="min-width:200px">Action</th>
                                         @endif
                                     </tr>
-                                @endforeach                 
-                            </tbody>
-                        </table>
-                        <div class="clearfix">
-                            <div class="pull-left" style="margin: 0;">
-                                <p>Total <strong style="color: red">{{ $incidents->total() }}</strong> Incidents</p>
-                            </div>
-                            <div class="pull-right" style="margin: 0;">
-                                {!! $incidents->links() !!}
+                                </thead>
+                                <tbody>
+                                    @foreach($incidents as $item)
+                                        <tr>
+                                            <td>{{ ($page_number-1) * 10 + $loop->index+1 }}</td>
+                                            <td class="username">@isset($item->user) {{$item->user->name}} @endisset</td>
+                                            <td class="firstname">@isset($item->user) {{$item->user->firstname}} @endisset</td>
+                                            <td class="lastname">@isset($item->user) {{$item->user->lastname}} @endisset</td>
+                                            <td class="phone">@isset($item->user) {{$item->user->phone}} @endisset</td>
+                                            <td class="urgency">
+                                                @if($item->urgency == "0")
+                                                    <span class="badge badge-danger">Low</span>
+                                                @else
+                                                    <span class="badge badge-primary">High</span>
+                                                @endif
+                                            </td>
+                                            <td class="">{{$item->description}}</td>
+                                            <td class="status" data-value="{{$item->status}}">
+                                                @if ($item->status == 0) 
+                                                    <span class="badge badge-danger">Pending</span>
+                                                @elseif($item->status == 1) 
+                                                    <span class="badge badge-primary">Work In Process</span>                                                     
+                                                @else 
+                                                    <span class="badge badge-success">Resolve</span>                                                     
+                                                @endif
+                                            </td>
+                                            <td class="comment">{{$item->comment}}</td>
+                                            @if (Auth::user()->role == 'Admin')
+                                                <td class="py-2">
+                                                    <a href="{{route('incident.delete', $item->id)}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Delete" onclick="return confirm('Are you sure?');"><i class="fa fa-trash-o" style="font-size:18px"></i>Delete</a>
+                                                    <a href="#" class="btn btn-primary btn-sm btn-response" data-id="{{$item->id}}" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Response"><i class="fa fa-edit" style="font-size:18px"></i>Response</a>
+                                                </td>
+                                            @endif
+                                        </tr>
+                                    @endforeach                 
+                                </tbody>
+                            </table>
+                            <div class="clearfix">
+                                <div class="pull-left" style="margin: 0;">
+                                    <p>Total <strong style="color: red">{{ $incidents->total() }}</strong> Incidents</p>
+                                </div>
+                                <div class="pull-right" style="margin: 0;">
+                                    {!! $incidents->links() !!}
+                                </div>
                             </div>
                         </div>
+                        
                     </div>                   
                 </div>
             </div>            
