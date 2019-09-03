@@ -10,7 +10,7 @@
 
     <!-- Favicons -->
     <link href="{{asset('front/img/favicon.png')}}" rel="icon">
-    <link href="{{asset('front/img/apple-touch-icon.png')}}" rel="apple-touch-icon">
+    <link href="{{asset('front/img/favicon.png')}}" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Montserrat:300,400,500,700"
@@ -48,7 +48,7 @@
             <div id="logo" class="pull-left" style="margin-top:-15px;">
                 <a class="scrollto" href="{{route('home')}}">
                     <img src="{{asset('images/logo.png')}}" class="pull-left" width="150" alt="" title="" />
-                    <span class="text-white" style="font-size:30px;font-weight:600">&nbsp;IT Help Desk</span>
+                    <span class="text-white" style="font-size:30px;font-weight:600;line-height:2.5">&nbsp;IT Help Desk</span>
                 </a>
             </div>
 

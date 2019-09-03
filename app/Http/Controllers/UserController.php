@@ -81,8 +81,8 @@ class UserController extends Controller
         $user->gender = $request->get("gender");
         $user->group_id = $request->get("group_id");
 
-        if($request->get('newpassword') != ''){
-            $user->password = Hash::make($request->get('newpassword'));
+        if($request->get('password') != ''){
+            $user->password = Hash::make($request->get('password'));
         }
         if($request->has("picture")){
             $picture = request()->file('picture');
