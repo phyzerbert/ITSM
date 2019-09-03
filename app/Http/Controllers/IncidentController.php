@@ -8,6 +8,8 @@ use App\User;
 use Auth;
 use App\Exports\IncidentsExport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Mail\IncidentEmail;
+use Illuminate\Support\Facades\Mail;
 
 class IncidentController extends Controller
 {
@@ -33,13 +35,15 @@ class IncidentController extends Controller
         $urgency = $request->get('urgency');
         $description = $request->get('description');
 
-        Incident::create([
+        $incident = Incident::create([
             'user_id' => $user->id,
             'group_id' => $request->get('group_id'),
             'phone' => $phone,
             'urgency' => $urgency,
             'description' => $description,
         ]);
+        $admin_email = env('ADMIN_EMAIL');
+        Mail::to($admin_email)->send(new IncidentEmail($incident));
 
         return back()->with('success', 'Created Incident Successfully!');
     }
