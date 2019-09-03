@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{{ asset('main/css/buttons.dataTables.min.css') }}">
     <!-- Font-icon css-->
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>Bolton IT Help Desk</title>
+    <title>Emirates IT Help Desk</title>
   </head>
   <body>
     @yield('content')

@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Bolton IT Help Desk</title>
+    <title>Emirates IT Help Desk</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -398,8 +398,8 @@
                 <div class="row">
 
                     <div class="col-lg-12 col-md-12 footer-info">
-                        <h3>Bolton IT Help Desk</h3>
-                        <p>Bolton IT Help Desk is a game changer in turning IT teams from daily fire-fighting to delivering awesome customer service. It provides great visibility and central control in dealing with IT issues to ensure that businesses suffer no downtime.</p>
+                        <h3>Emirates IT Help Desk</h3>
+                        <p>Emirates IT Help Desk is a game changer in turning IT teams from daily fire-fighting to delivering awesome customer service. It provides great visibility and central control in dealing with IT issues to ensure that businesses suffer no downtime.</p>
                     </div>
 
                 </div>
@@ -408,7 +408,7 @@
 
         <div class="container">
             <div class="copyright">
-                &copy; Copyright 2019<strong>&nbsp;Bolton IT Help Desk</strong>. All Rights Reserved
+                &copy; Copyright 2019<strong>&nbsp;Emirates IT Help Desk</strong>. All Rights Reserved
             </div>
         </div>
     </footer><!-- #footer -->
