@@ -20,7 +20,7 @@
                         <h3 class="tile-title">Search an Incident(s)</h3>                    
                         <form class="form-inline" id="search_form" action="{{route("incident.search")}}" method="POST">
                             @csrf
-                            <input class="form-control form-control-sm ml-3" type="text" id="username" name="username" value="{{$username}}" placeholder="User ID">
+                            <input class="form-control form-control-sm" type="text" id="username" name="username" value="{{$username}}" placeholder="User ID">
                             <input class="form-control form-control-sm ml-3" type="text" id="firstname" name="firstname" value="{{$firstname}}" placeholder="First Name">
                             <input class="form-control form-control-sm ml-3" type="text" id="lastname" name="lastname" value="{{$lastname}}" placeholder="Last Name">                        
                             <input class="form-control form-control-sm ml-2" type="text" id="phone" name="phone" value="{{$phone}}" placeholder="Phone Number">
