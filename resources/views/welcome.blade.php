@@ -45,10 +45,10 @@
     <header id="header">
         <div class="container-fluid">
 
-            <div id="logo" class="pull-left" style="margin-top:-15px;">
+            <div class="float-left" style="margin-top:-15px;">
                 <a class="scrollto" href="{{route('home')}}">
                     <img src="{{asset('images/logo.png')}}" class="pull-left" width="150" alt="" title="" />
-                    <span class="text-white" style="font-size:30px;font-weight:600;line-height:2.5">&nbsp;IT Help Desk</span>
+                    <span class="d-none d-md-inline-block text-white" style="font-size:30px;font-weight:600;line-height:2.5">&nbsp;IT Help Desk</span>
                 </a>
             </div>
 
@@ -163,7 +163,7 @@
             <div class="container">
 
                 <header class="section-header wow fadeInUp">
-                    <h3>ITIL-based features designed for your IT help desk</h3>>
+                    <h3>ITIL-based features designed for your IT help desk</h3>
                     <p></p>
                 </header>
 

@@ -10,7 +10,7 @@
     <a href="{{ url('/') }}" class="logo" style="text-decoration:none;">
         <div>
             <img src="{{asset('images/logo.png')}}" class="pull-left" width="150" alt="" title="" />
-            <span class="text-white" style="font-size:30px;font-weight:600;line-height:2.3;">&nbsp;Enterprise Incident Management</span>
+            <span class="d-none d-md-inline-block text-white" style="font-size:30px;font-weight:600;line-height:2.3;">&nbsp;Enterprise Incident Management</span>
         </div>
     </a>
     <div class="login-box" style="min-height:450px">
