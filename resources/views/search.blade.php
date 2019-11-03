@@ -34,15 +34,15 @@
                                 @endforeach
                             </select>
                             <input class="form-control form-control-sm ml-2" type="text" id="description" name="description" value="{{$description}}" placeholder="Short Description" />
-                            <label class="control-label ml-3">Urgency</label>
-                            <label class="form-check-label ml-3">
+                            <label class="control-label ml-2">Urgency</label>
+                            <label class="form-check-label ml-2">
                                 <input class="form-check-input" type="checkbox" id="urgency_low" name="urgency[]" value="0" @if (in_array('0', $urgency)) checked @endif>Low
                             </label>
-                            <label class="form-check-label ml-3">
+                            <label class="form-check-label ml-2">
                                 <input class="form-check-input" type="checkbox" id="urgency_high" name="urgency[]" value="1" @if (in_array('1', $urgency)) checked @endif>High
                             </label>
-                            <button class="btn btn-primary btn-sm ml-4" type="submit" onclick="search()"><i class="fa fa-fw fa-lg fa-search"></i>Search</button>                            
-                            <button class="btn btn-danger btn-sm ml-4" type="reset"><i class="fa fa-fw fa-lg fa-eraser"></i>Reset</button>                            
+                            <button class="btn btn-primary btn-sm ml-2" type="submit" onclick="search()"><i class="fa fa-fw fa-lg fa-search"></i>Search</button>                            
+                            <button class="btn btn-danger btn-sm ml-2" type="reset"><i class="fa fa-fw fa-lg fa-eraser"></i>Reset</button>                            
                         </form>                       
                     </div>
                     <div class="tile-body mt-3">
