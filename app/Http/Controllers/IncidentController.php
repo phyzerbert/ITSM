@@ -174,7 +174,7 @@ class IncidentController extends Controller
             $mod = $mod->whereBetween('resolved_at', [$from, $to]);
         }
 
-        $data = $mod->paginate(10);
+        $data = $mod->orderBy('created_at', 'desc')->paginate(10);
         return view('report', compact('data', 'current_page', 'username', 'status', 'opened_at', 'resolved_at'));
     }
 
