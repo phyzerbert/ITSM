@@ -229,6 +229,11 @@ class IncidentController extends Controller
             'content' => $request->content,
         ]);
         $incident = Incident::find($request->id);
+        if($request->status == '2'){
+            $incident->resolved_user_id = Auth::user()->id;
+            $incident->resolved_at = date('Y-m-d H:i:s');
+            $incident->save();
+        }
         $admin_email = env('ADMIN_EMAIL');
         $user_email = $user->email;
         Mail::to($admin_email)->send(new CommentEmail($incident, $comment));

@@ -28,6 +28,13 @@
                             @csrf
                             <input type="hidden" name="id" value="{{$incident->id}}" />
                             <div class="form-group">
+                                <select class="form-control from" name="status" id="status">
+                                    <option value="0">Pending</option>
+                                    <option value="1" selected>Work In Process</option>                                
+                                    <option value="2">Resolve</option>                                
+                                </select>
+                            </div>
+                            <div class="form-group">
                                 <textarea name="content" id="" cols="30" rows="3" class="form-control" placeholder="Leave Comment ..."></textarea>
                             </div>
                             <div class="text-right">
