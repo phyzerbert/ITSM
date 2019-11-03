@@ -37,7 +37,6 @@ class IncidentController extends Controller
         $user = Auth::user();
 
         $incident = Incident::create([
-            'reference_number' => mt_rand(100000, 999999),
             'user_id' => $user->id,
             'group_id' => $request->group_id,
             'category_id' => $request->category_id,
@@ -47,6 +46,7 @@ class IncidentController extends Controller
             'description' => $request->description,
             'short_description' => $request->short_description,
         ]);
+        $incident->update(['reference_number' => str_pad($incident->id, 6, '0', STR_PAD_LEFT)]);
         $admin_email = env('ADMIN_EMAIL');
         $user_email = $user->email;
         Mail::to($admin_email)->send(new IncidentEmail($incident));
