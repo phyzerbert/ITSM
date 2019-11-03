@@ -11,6 +11,6 @@
     @if (Auth::user()->role == "Admin")
         <li><a class="app-menu__item @if($current_page == 'user') active @endif" href="{{route('user.index')}}"><i class="app-menu__icon fa fa-users"></i><span class="app-menu__label">User Management</span></a></li>       
         <li><a class="app-menu__item @if($current_page == 'group') active @endif" href="{{route('group.index')}}"><i class="app-menu__icon fa fa-object-group"></i><span class="app-menu__label">Group Management</span></a></li>       
-        <li><a class="app-menu__item @if($current_page == 'report') active @endif" href="{{route('incident.report')}}"><i class="app-menu__icon fa fa-file-excel-o"></i><span class="app-menu__label">Report Incidents</span></a></li>       
+        <li><a class="app-menu__item @if($current_page == 'report') active @endif" href="{{route('incident.report')}}"><i class="app-menu__icon fa fa-file-excel-o"></i><span class="app-menu__label">Report Generator</span></a></li>       
     @endif
     </ul>

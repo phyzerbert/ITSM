@@ -2,11 +2,11 @@
 @section('content')
     <div class="app-title">
         <div>
-            <h1><i class="fa fa-file-excel-o"></i>&nbsp;Report Incidents</h1>
+            <h1><i class="fa fa-file-excel-o"></i>&nbsp;Report Generator</h1>
         </div>
         <ul class="app-breadcrumb breadcrumb">
             <li class="breadcrumb-item"><a href="{{ url('/') }}"><i class="fa fa-home fa-lg"></i></a></li>
-            <li class="breadcrumb-item"><a href="#">Report Incidents</a></li>
+            <li class="breadcrumb-item"><a href="#">Report Generator</a></li>
         </ul>
     </div>
     <div class="">
@@ -14,7 +14,7 @@
             <div class="col-md-12 mx-auto">
                 <div class="tile">
                     <div class="tile-header clearfix">                     
-                        <h3 class="tile-title">Report Incidents</h3>                    
+                        <h3 class="tile-title">Report Generator</h3>                    
                         <form class="form-inline float-left" id="search_form" action="" method="POST">
                             @csrf
                             <input class="form-control form-control-sm ml-3" type="text" id="username" name="username" value="{{$username}}" placeholder="User ID">
@@ -34,13 +34,13 @@
                     <div class="tile-body mt-3">
                         @csrf
                         <div class="table-responsive">
-                            <table class="table table-hover table-bordered text-center" id="documentTable">
+                            <table class="table table-hover table-bordered" id="documentTable">
                                 <thead>
                                     <tr>
                                         <th>No</th>
                                         <th>User ID</th>
                                         <th>Short Description</th>
-                                        <th>Preority</th>
+                                        <th>Priority</th>
                                         <th>Status</th>
                                         <th>Assignment Group</th>
                                         <th>Resolved By</th>
@@ -52,7 +52,7 @@
                                     @foreach($data as $item)
                                         <tr>
                                             <td>{{ (($data->currentPage() - 1 ) * $data->perPage() ) + $loop->iteration }}</td>
-                                            <td class="username">@isset($item->user) {{$item->user->name}} @endisset</td>
+                                            <td class="username">{{$item->user->name ?? ''}}</td>
                                             <td class="description">{{$item->description}}</td>
                                             <td class="urgency">
                                                 @if($item->urgency == "0")
@@ -70,8 +70,8 @@
                                                     <span class="badge badge-success">Resolve</span>                                                     
                                                 @endif
                                             </td>
-                                            <td class="">@isset($item->group->name){{$item->group->name}}@endisset</td>
-                                            <td class="">@isset($item->resolved_user->name){{$item->resolved_user->name}}@endisset</td>
+                                            <td class="">{{$item->group->name ?? ''}}</td>
+                                            <td class="">{{$item->resolved_user->name ?? ''}}</td>
                                             <td class="opened_at">{{date('m/d/Y H:i', strtotime($item->created_at))}}</td>
                                             <td class="">@if($item->resolved_at){{date('m/d/Y H:i', strtotime($item->resolved_at))}}@endif</td>
                                         </tr>

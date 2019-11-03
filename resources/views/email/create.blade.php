@@ -80,34 +80,12 @@
                                                                                                                         <td>{{$incident->priority}}</td>
                                                                                                                     </tr>
                                                                                                                     <tr>
-                                                                                                                        <td align="right" width="150">Fault Description :&nbsp;&nbsp;</td>
-                                                                                                                        <td>{{$incident->description}}</td>
+                                                                                                                        <td align="right" width="150" valign="top">Fault Description :&nbsp;&nbsp;</td>
+                                                                                                                        <td><pre>{{$incident->description}}</pre></td>
                                                                                                                     </tr>
                                                                                                                 </table>
                                                                                                             </td>
                                                                                                             <td width="10"></td>
-                                                                                                        </tr>
-                                                                                                        <tr>
-                                                                                                            <td colspan="3">
-                                                                                                                <br>
-                                                                                                                <h4>&nbsp;&nbsp;&nbsp;Comments : </h4>
-                                                                                                            </td>
-                                                                                                        </tr>
-                                                                                                        <tr>
-                                                                                                            <td width="10"></td>
-                                                                                                            <td>
-                                                                                                                @foreach ($incident->comments as $item)
-                                                                                                                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                                                                                                                        <tr>
-                                                                                                                            <td>{{$item->user->name ?? ''}}</td>
-                                                                                                                            <td align="right">{{$item->created_at}}</td>
-                                                                                                                        </tr>
-                                                                                                                        <tr><td colspan="2"><pre>{{$item->content}}</pre></td></tr>
-                                                                                                                        <tr><td colspan="2" height="10"></td></tr>
-                                                                                                                    </table>
-                                                                                                                @endforeach
-                                                                                                            </td>
-                                                                                                            <td></td>
                                                                                                         </tr>
                                                                                                         <tr>
                                                                                                             <td colspan="3" style="padding:17px 15px 27px 10px;font-family:verdana,arial,helvetica,sans-serif;font-size:13px;">                                                                                                                

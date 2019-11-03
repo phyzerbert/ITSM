@@ -40,6 +40,7 @@ class UserController extends Controller
             'name'=>'required',
             'firstname'=>'required',
             'lastname'=>'required',
+            'email'=>'required|email',
             'phone'=>'required',
             'gender'=>'required'
         ]);
@@ -47,6 +48,7 @@ class UserController extends Controller
         $user->name = $request->get("name");
         $user->firstname = $request->get("firstname");
         $user->lastname = $request->get("lastname");
+        $user->email = $request->get("email");
         $user->phone = $request->get("phone");
         $user->gender = $request->get("gender");
 
@@ -68,6 +70,7 @@ class UserController extends Controller
             'name'=>'required',
             'firstname'=>'required',
             'lastname'=>'required',
+            'email'=>'email',
             'phone'=>'required',
             'gender'=>'required',
             'password'=>'confirmed'
@@ -76,6 +79,7 @@ class UserController extends Controller
         $user->name = $request->get("name");
         $user->firstname = $request->get("firstname");
         $user->lastname = $request->get("lastname");
+        $user->email = $request->get("email");
         $user->phone = $request->get("phone");
         $user->role = $request->get("role");
         $user->gender = $request->get("gender");
@@ -95,18 +99,18 @@ class UserController extends Controller
     }
 
     public function create(Request $request){
-        // dump($request->all()); die;
         $request->validate([
             'name'=>'required|alpha_dash|unique:users',
             'firstname'=>'required',
             'lastname'=>'required',
+            'email'=>'required|email',
             'phone'=>'required',
             'password'=>'required|string|min:6|confirmed'
         ]);
         
         User::create([
             'name' => $request->get('name'),
-            'email' => $request->get('name'),
+            'email' => $request->get('email'),
             'firstname' => $request->get('firstname'),
             'lastname' => $request->get('lastname'),
             'phone' => $request->get('phone'),
@@ -118,8 +122,7 @@ class UserController extends Controller
     }
 
     public function delete($id){
-        $user = User::find($id);
-        $user->delete();
+        User::destroy($id);
         return back()->with("success", "Deleted Successfully!");
     }
 }

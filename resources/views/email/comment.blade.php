@@ -90,22 +90,20 @@
                                                                                                         <tr>
                                                                                                             <td colspan="3">
                                                                                                                 <br>
-                                                                                                                <h4>&nbsp;&nbsp;&nbsp;Comments : </h4>
+                                                                                                                <h4>&nbsp;&nbsp;&nbsp;Updated Comments : </h4>
                                                                                                             </td>
                                                                                                         </tr>
                                                                                                         <tr>
                                                                                                             <td width="10"></td>
                                                                                                             <td>
-                                                                                                                @foreach ($incident->comments as $item)
-                                                                                                                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                                                                                                                        <tr>
-                                                                                                                            <td>{{$item->user->name ?? ''}}</td>
-                                                                                                                            <td align="right">{{$item->created_at}}</td>
-                                                                                                                        </tr>
-                                                                                                                        <tr><td colspan="2"><pre>{{$item->content}}</pre></td></tr>
-                                                                                                                        <tr><td colspan="2" height="10"></td></tr>
-                                                                                                                    </table>
-                                                                                                                @endforeach
+                                                                                                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                                                                                    <tr>
+                                                                                                                        <td>{{$comment->user->name ?? ''}}</td>
+                                                                                                                        <td align="right">{{$comment->created_at}}</td>
+                                                                                                                    </tr>
+                                                                                                                    <tr><td colspan="2"><pre>{{$comment->content}}</pre></td></tr>
+                                                                                                                    <tr><td colspan="2" height="10"></td></tr>
+                                                                                                                </table>
                                                                                                             </td>
                                                                                                             <td></td>
                                                                                                         </tr>

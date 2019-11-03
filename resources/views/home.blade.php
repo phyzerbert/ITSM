@@ -36,6 +36,17 @@
                                     @endforeach
                                 </select>
                             </div>
+                            @php
+                                $groups = \App\Category::all();
+                            @endphp
+                            <div class="form-group">
+                                <label for="category" class="control-label">Category</label>
+                                <select name="category_id" id="category" class="form-control" required>
+                                    @foreach ($groups as $item)
+                                        <option value="{{$item->id}}">{{$item->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
 
                             <div class="form-group">
                                 <label class="control-label">Urgency</label>
@@ -51,13 +62,27 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label for="group" class="control-label">Priority</label>
+                                <select name="priority" id="priority" class="form-control" required>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Short Description</label>
+                                <input class="form-control" type="text" name="short_description" placeholder="Short Description" />
+                            </div> 
+                            <div class="form-group">
                                 <label class="control-label">Fault Description</label>
                                 <textarea class="form-control" name="description" rows="4" placeholder="Fault Description"></textarea>
                             </div>
                         </div>
                         <div class="tile-footer">
                             <button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Create</button>&nbsp;&nbsp;&nbsp;
-                            <a class="btn btn-secondary" href="#"><i class="fa fa-fw fa-lg fa-times-circle"></i>Cancel</a>
+                            <a class="btn btn-danger" href="#"><i class="fa fa-fw fa-lg fa-times-circle"></i>Cancel</a>
                         </div>
                     </form>
                 </div>

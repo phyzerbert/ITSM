@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Incident;
+use App\Comment;
 use App\User;
 use Auth;
 use App\Exports\IncidentsExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Mail\IncidentEmail;
+use App\Mail\CommentEmail;
 use Illuminate\Support\Facades\Mail;
 
 class IncidentController extends Controller
@@ -26,24 +28,31 @@ class IncidentController extends Controller
     }
     public function create(Request $request){
         $request->validate([
+            'short_description' => 'required|string',
             'description' => 'required|string',
             'group_id' => 'required',
+            'category_id' => 'required',
             'phone' => 'required|numeric'
         ]);
         $user = Auth::user();
-        $phone = $request->get('phone');
-        $urgency = $request->get('urgency');
-        $description = $request->get('description');
 
         $incident = Incident::create([
             'user_id' => $user->id,
-            'group_id' => $request->get('group_id'),
-            'phone' => $phone,
-            'urgency' => $urgency,
-            'description' => $description,
+            'group_id' => $request->group_id,
+            'category_id' => $request->category_id,
+            'phone' => $request->phone,
+            'priority' => $request->priority,
+            'urgency' => $request->urgency,
+            'description' => $request->description,
+            'short_description' => $request->short_description,
         ]);
         $admin_email = env('ADMIN_EMAIL');
+        $user_email = $user->email;
         Mail::to($admin_email)->send(new IncidentEmail($incident));
+        if (filter_var($user_email, FILTER_VALIDATE_EMAIL)) {
+            Mail::to($user_email)->send(new IncidentEmail($incident));
+        }
+        
 
         return back()->with('success', 'Created Incident Successfully!');
     }
@@ -88,9 +97,13 @@ class IncidentController extends Controller
         if ($request->get('description') != ""){
             $description = $request->get('description');
             $incident_mod = $incident_mod->where('description', 'like', "%$description%");
+            $incident_mod = $incident_mod->where(function($query) use($description) {
+                return $query->where('short_description', 'like', "%$description%")
+                            ->orWhere('description', 'like', "%$description%");
+            });
         }
 
-        $incidents = $incident_mod->paginate(10);
+        $incidents = $incident_mod->orderBy('created_at', 'desc')->paginate(10);
         $current_page = 'search';
         if(null !== $request->get('page')){
             $page_number = $request->get('page');
@@ -195,6 +208,33 @@ class IncidentController extends Controller
 
         $data = $mod->get();
         return Excel::download(new IncidentsExport($data), 'incidents_report.xlsx');
+    }
+
+    public function comment(Request $request) {
+        $current_page = 'search';
+        $id = $request->id;
+        $incident = Incident::find($id);
+        return view('comment', compact('incident', 'current_page'));
+    }
+
+    public function save_comment(Request $request) {
+        $request->validate([
+            'content' => 'required',
+        ]);
+        $user = Auth::user();
+        $comment = Comment::create([
+            'user_id' => $user->id,
+            'incident_id' => $request->id,
+            'content' => $request->content,
+        ]);
+        $incident = Incident::find($request->id);
+        $admin_email = env('ADMIN_EMAIL');
+        $user_email = $user->email;
+        Mail::to($admin_email)->send(new CommentEmail($incident, $comment));
+        if (filter_var($user_email, FILTER_VALIDATE_EMAIL)) {
+            Mail::to($user_email)->send(new CommentEmail($incident, $comment));
+        }
+        return back()->with('success', 'Left comment successfully');
     }
     
 }

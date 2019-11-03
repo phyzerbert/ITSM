@@ -33,7 +33,7 @@
                                     <option value="{{$item->id}}" @if($group_id == $item->id) selected @endif>{{$item->name}}</option>
                                 @endforeach
                             </select>
-                            <input class="form-control form-control-sm ml-2" type="text" id="description" name="description" value="{{$description}}" placeholder="Description" />
+                            <input class="form-control form-control-sm ml-2" type="text" id="description" name="description" value="{{$description}}" placeholder="Short Description" />
                             <label class="control-label ml-3">Urgency</label>
                             <label class="form-check-label ml-3">
                                 <input class="form-check-input" type="checkbox" id="urgency_low" name="urgency[]" value="0" @if (in_array('0', $urgency)) checked @endif>Low
@@ -47,7 +47,7 @@
                     <div class="tile-body mt-3">
                         @csrf
                         <div class="table-responsive">
-                            <table class="table table-hover table-bordered text-center" id="documentTable">
+                            <table class="table table-hover table-bordered" id="documentTable">
                                 <thead>
                                     <tr>
                                         <th>No</th>
@@ -56,31 +56,32 @@
                                         <th>Last Name</th>
                                         <th>Phone Number</th>
                                         <th>Urgency</th>
-                                        <th>Description</th>
+                                        <th>Short Description</th>
                                         <th>Status</th>
-                                        <th>Comment</th>
+                                        <th>Priority</th>
+                                        <th>Assignment Group</th>
                                         @if (Auth::user()->role == 'Admin')
-                                            <th style="min-width:200px">Action</th>
+                                            <th>Action</th>
                                         @endif
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach($incidents as $item)
-                                        <tr>
-                                            <td>{{ (($incidents->currentPage() - 1 ) * $incidents->perPage() ) + $loop->iteration }}</td>
-                                            <td class="username">@isset($item->user) {{$item->user->name}} @endisset</td>
-                                            <td class="firstname">@isset($item->user) {{$item->user->firstname}} @endisset</td>
-                                            <td class="lastname">@isset($item->user) {{$item->user->lastname}} @endisset</td>
-                                            <td class="phone">@isset($item->user) {{$item->user->phone}} @endisset</td>
-                                            <td class="urgency">
+                                        <tr data-id={{$item->id}}>
+                                            <td class="link-comment">{{ (($incidents->currentPage() - 1 ) * $incidents->perPage() ) + $loop->iteration }}</td>
+                                            <td class="username link-comment">{{$item->user->name ?? ''}}</td>
+                                            <td class="firstname link-comment">{{$item->user->firstname ?? ''}}</td>
+                                            <td class="lastname link-comment">{{$item->user->lastname ?? ''}}</td>
+                                            <td class="phone link-comment">{{$item->user->phone ?? ''}}</td>
+                                            <td class="urgency link-comment">
                                                 @if($item->urgency == "0")
                                                     <span class="badge badge-danger">Low</span>
                                                 @else
                                                     <span class="badge badge-primary">High</span>
                                                 @endif
                                             </td>
-                                            <td class="">{{$item->description}}</td>
-                                            <td class="status" data-value="{{$item->status}}">
+                                            <td class="link-comment">{{$item->short_description}}</td>
+                                            <td class="status link-comment" data-value="{{$item->status}}">
                                                 @if ($item->status == 0) 
                                                     <span class="badge badge-danger">Pending</span>
                                                 @elseif($item->status == 1) 
@@ -89,11 +90,11 @@
                                                     <span class="badge badge-success">Resolve</span>                                                     
                                                 @endif
                                             </td>
-                                            <td class="comment">{{$item->comment}}</td>
+                                            <td class="link-comment">{{$item->priority}}</td>
+                                            <td class="link-comment">{{$item->group->name ?? ''}}</td>
                                             @if (Auth::user()->role == 'Admin')
-                                                <td class="py-2">
+                                                <td class="py-2 text-center" style="max-width:100px">
                                                     <a href="{{route('incident.delete', $item->id)}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Delete" onclick="return confirm('Are you sure?');"><i class="fa fa-trash-o" style="font-size:18px"></i>Delete</a>
-                                                    <a href="#" class="btn btn-primary btn-sm btn-response" data-id="{{$item->id}}" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Response"><i class="fa fa-edit" style="font-size:18px"></i>Response</a>
                                                 </td>
                                             @endif
                                         </tr>
@@ -159,8 +160,9 @@
             let firstname = $("#firstname").val().trim();
             let lastname = $("#lastname").val().trim();
             let phone = $("#phone").val().trim();
+            let group = $("#group_id").val().trim();
             let description = $("#description").val().trim();
-            if (username == '' && firstname == '' && lastname == '' && phone == '' && description == '' && $("#urgency_high").prop('checked') != true && $("#urgency_low").prop('checked') != true) {
+            if (username == '' && firstname == '' && lastname == '' && phone == '' && group == '' && description == '' && $("#urgency_high").prop('checked') != true && $("#urgency_low").prop('checked') != true) {
                 alert("At least one field must be entered.");
                 return false;
             }
@@ -175,6 +177,11 @@
                 $("#response_form #status").val(status);
                 $("#response_form #comment").val(comment);
                 $("#responseModal").modal();
+            });
+
+            $(".link-comment").click(function () {
+                let id = $(this).parents('tr').data('id');
+                window.location.href="{{route('incident.comment')}}" + "?id=" + id;
             })
         });
     </script>    

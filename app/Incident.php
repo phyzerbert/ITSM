@@ -19,5 +19,12 @@ class Incident extends Model
     public function group(){
         return $this->belongsTo('App\Group');
     }
-    
+
+    public function category(){
+        return $this->belongsTo('App\Category');
+    }
+
+    public function comments(){
+        return $this->hasMany('App\Comment');
+    }    
 }

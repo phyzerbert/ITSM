@@ -26,24 +26,11 @@ class IncidentsExport implements FromArray, WithHeadings
         foreach ($data as $item) {
             $incidents[$i] = array();
             $incidents[$i]['no'] = $item->id;
-            $incidents[$i]['short_description'] = $item->description;
-            if($item->urgency == "0"){
-                $incidents[$i]['priority'] = "Low";
-            }else{
-                $incidents[$i]['priority'] = "High";
-            }
-
-            if(isset($item->group->name)){
-                $incidents[$i]['assignment_group'] = $item->group->name;
-            }else{
-                $incidents[$i]['assignment_group'] = '';
-            }
-
-            if(isset($item->resolved_user->name)){
-                $incidents[$i]['resolved_by'] = $item->resolved_user->name;
-            }else{
-                $incidents[$i]['resolved_by'] = '';
-            }
+            $incidents[$i]['short_description'] = $item->short_description;
+            $incidents[$i]['description'] = $item->description;
+            $incidents[$i]['priority'] = $item->priority;
+            $incidents[$i]['assignment_group'] = $item->group->name ?? '';
+            $incidents[$i]['resolved_by'] = $item->resolved_user->name ?? '';
 
             $incidents[$i]['opened_at'] = date('m/d/Y H:i', strtotime($item->created_at));
 
@@ -63,6 +50,7 @@ class IncidentsExport implements FromArray, WithHeadings
         return [
             'No',
             'Short Description',
+            'Fault Description',
             'Priority',
             'Assignment Group',
             'Resolved By',

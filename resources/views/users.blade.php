@@ -25,6 +25,7 @@
                                 <th>UserID</th>
                                 <th>First Name</th>
                                 <th>Last Name</th>
+                                <th>Email Address</th>
                                 <th>Gender</th>
                                 <th>Phone</th>
                                 <th>Role</th>
@@ -39,6 +40,7 @@
                                 <td class="username">{{$user->name}}</td>
                                 <td class="firstname">{{$user->firstname}}</td>
                                 <td class="lastname">{{$user->lastname}}</td>
+                                <td class="email">{{$user->email}}</td>
                                 <td class="gender">{{$user->gender}}</td>
                                 <td class="phone">{{$user->phone}}</td>
                                 <td class="role">{{$user->role}}</td>
@@ -53,7 +55,7 @@
                     </table>
                     <div class="clearfix">
                         <div class="pull-left" style="margin: 0;">
-                            <p>Total <strong style="color: red">{{ $users->total() }}</strong> users</p>
+                            <p>Total <strong style="color: red">{{ $users->total() }}</strong> Users</p>
                         </div>
                         <div class="pull-right" style="margin: 0;">
                             {!! $users->links() !!}
@@ -95,6 +97,13 @@
                         <label class="control-label">Last Name</label>
                         <input class="form-control" type="text" name="lastname" id="lastname" placeholder="Last Name">
                         <span id="lastname_error" class="invalid-feedback">
+                            <strong></strong>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Email Address</label>
+                        <input class="form-control" type="email" name="email" id="email" placeholder="Email Address">
+                        <span id="email_error" class="invalid-feedback">
                             <strong></strong>
                         </span>
                     </div>
@@ -191,6 +200,13 @@
                         </span>
                     </div>
                     <div class="form-group">
+                        <label class="control-label">Email Address</label>
+                        <input class="form-control" type="text" name="email" id="edit_email" placeholder="Email Address">
+                        <span id="edit_email_error" class="invalid-feedback">
+                            <strong></strong>
+                        </span>
+                    </div>
+                    <div class="form-group">
                         <label class="control-label">Gender</label>
                         <select class="form-control" name="gender" id="edit_gender">
                             <option value="Male">Male</option>
@@ -280,7 +296,6 @@
                     }
                 },
                 error: function(data) {
-                    console.log(data.responseJSON);
                     if(data.responseJSON.message == 'The given data was invalid.') {
                         let messages = data.responseJSON.errors;
                         if(messages.name) {
@@ -299,6 +314,12 @@
                             $('#lastname_error strong').text(data.responseJSON.errors.lastname[0]);
                             $('#lastname_error').show();
                             $('#create_form #lastname').focus();
+                        }
+
+                        if(messages.email) {
+                            $('#email_error strong').text(data.responseJSON.errors.email[0]);
+                            $('#email_error').show();
+                            $('#create_form #email').focus();
                         }
 
                         if(messages.password) {
@@ -322,6 +343,7 @@
             let username = $(this).parents('tr').find(".username").text().trim();
             let firstname = $(this).parents('tr').find(".firstname").text().trim();
             let lastname = $(this).parents('tr').find(".lastname").text().trim();
+            let email = $(this).parents('tr').find(".email").text().trim();
             let phone = $(this).parents('tr').find(".phone").text().trim();
             let gender = $(this).parents('tr').find(".gender").text().trim();
             let role = $(this).parents('tr').find(".role").text().trim();            
@@ -332,6 +354,7 @@
             $("#editModal #edit_name").val(username);
             $("#editModal #edit_firstname").val(firstname);
             $("#editModal #edit_lastname").val(lastname);
+            $("#editModal #edit_email").val(email);
             $("#editModal #edit_gender").val(gender);
             $("#editModal #edit_phone").val(phone);
             $("#editModal #edit_role").val(role);  
@@ -379,6 +402,12 @@
                             $('#edit_form #edit_lastname').focus();
                         }
 
+                        if(messages.email) {
+                            $('#edit_email_error strong').text(data.responseJSON.errors.email[0]);
+                            $('#edit_email_error').show();
+                            $('#edit_form #edit_email').focus();
+                        }
+
                         if(messages.password) {
                             $('#edit_password_error strong').text(data.responseJSON.errors.password[0]);
                             $('#edit_password_error').show();
@@ -394,13 +423,11 @@
                             $('#edit_gender_error strong').text(data.responseJSON.errors.gender[0]);
                             $('#edit_gender_error').show();
                             $('#edit_form #edit_gender').focus();
-                        }                  
-
+                        }
                     }
                 }
             });
         });
-
     });
 </script>
 @endsection

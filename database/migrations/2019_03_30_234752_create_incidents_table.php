@@ -18,8 +18,11 @@ class CreateIncidentsTable extends Migration
             $table->integer('user_id')->nullable();
             $table->integer('resolved_user_id')->nullable();
             $table->integer('group_id')->nullable();
+            $table->integer('category_id')->nullable();
             $table->string('phone')->nullable();
             $table->boolean('urgency')->nullable();
+            $table->integer('priority')->nullable();
+            $table->text('short_description')->nullable();
             $table->text('description')->nullable();
             $table->boolean('status')->nullable();
             $table->text('comment')->nullable();

@@ -34,6 +34,8 @@ Route::post('/incident/create', 'IncidentController@create')->name('incident.cre
 
 Route::any('/incident/search', 'IncidentController@search')->name('incident.search');
 Route::get('/incident/delete/{id}', 'IncidentController@delete')->name('incident.delete');
+Route::get('/incident/comment', 'IncidentController@comment')->name('incident.comment');
+Route::post('/incident/save_comment', 'IncidentController@save_comment')->name('incident.save_comment');
 Route::post('/incident/response', 'IncidentController@response')->name('incident.response');
 Route::any('/incident/report', 'IncidentController@report')->name('incident.report');
 Route::post('/incident/export', 'IncidentController@export')->name('incident.export');
@@ -45,3 +47,4 @@ Route::get('/kdb/delete/{id}', 'KdbController@delete')->name('kdb.delete');
 Route::get('/kdb/edit/{id}', 'KdbController@edit')->name('kdb.edit');
 Route::post('/kdb/update', 'KdbController@update')->name('kdb.update');
 Route::post('/kdb/save', 'KdbController@save')->name('kdb.save');
+Route::get('/check_email', 'HomeController@check_email');
