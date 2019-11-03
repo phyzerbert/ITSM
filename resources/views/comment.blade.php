@@ -16,6 +16,7 @@
                     <h3 class="tile-title">Incident</h3>
                     <hr>
                     <div class="tile-body">
+                        <h6>Reference Number : <span class="text-primary">{{$incident->reference_number}}</span></h6>
                         <h6>Category : <span class="text-primary">{{$incident->category->name ?? ''}}</span></h6>
                         <h6>Assignment Group : <span class="text-primary">{{$incident->group->name ?? ''}}</span></h6>
                         <h6>Short Description : </h6>
