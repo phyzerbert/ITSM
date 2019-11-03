@@ -51,7 +51,7 @@
                             <table class="table table-hover table-bordered" id="documentTable">
                                 <thead>
                                     <tr>
-                                        <th>No</th>
+                                        <th>Reference No</th>
                                         <th>User ID</th>
                                         <th>First Name</th>
                                         <th>Last Name</th>
@@ -69,7 +69,7 @@
                                 <tbody>
                                     @foreach($incidents as $item)
                                         <tr data-id={{$item->id}} style="cursor:pointer">
-                                            <td class="link-comment">{{ (($incidents->currentPage() - 1 ) * $incidents->perPage() ) + $loop->iteration }}</td>
+                                            <td class="link-comment">{{ $item->reference_number }}</td>
                                             <td class="username link-comment">{{$item->user->name ?? ''}}</td>
                                             <td class="firstname link-comment">{{$item->user->firstname ?? ''}}</td>
                                             <td class="lastname link-comment">{{$item->user->lastname ?? ''}}</td>
