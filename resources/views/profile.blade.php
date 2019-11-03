@@ -38,7 +38,7 @@
                         </div>
                         <div class="col-md-12 mb-4">
                             <label>Email Address</label>
-                            <input class="form-control" type="text" name="email" id="email" value="{{Auth::user()->email}}" />
+                            <input class="form-control" type="text" name="email" id="email" value="{{Auth::user()->email}}" required />
                         </div>
                         
                         <div class="col-md-12 mb-4">
