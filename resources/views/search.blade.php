@@ -67,7 +67,7 @@
                                 </thead>
                                 <tbody>
                                     @foreach($incidents as $item)
-                                        <tr data-id={{$item->id}}>
+                                        <tr data-id={{$item->id}} style="cursor:pointer">
                                             <td class="link-comment">{{ (($incidents->currentPage() - 1 ) * $incidents->perPage() ) + $loop->iteration }}</td>
                                             <td class="username link-comment">{{$item->user->name ?? ''}}</td>
                                             <td class="firstname link-comment">{{$item->user->firstname ?? ''}}</td>
