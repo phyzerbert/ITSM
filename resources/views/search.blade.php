@@ -42,6 +42,7 @@
                                 <input class="form-check-input" type="checkbox" id="urgency_high" name="urgency[]" value="1" @if (in_array('1', $urgency)) checked @endif>High
                             </label>
                             <button class="btn btn-primary btn-sm ml-4" type="submit" onclick="search()"><i class="fa fa-fw fa-lg fa-search"></i>Search</button>                            
+                            <button class="btn btn-danger btn-sm ml-4" type="reset"><i class="fa fa-fw fa-lg fa-eraser"></i>Reset</button>                            
                         </form>                       
                     </div>
                     <div class="tile-body mt-3">
@@ -162,10 +163,10 @@
             let phone = $("#phone").val().trim();
             let group = $("#group_id").val().trim();
             let description = $("#description").val().trim();
-            if (username == '' && firstname == '' && lastname == '' && phone == '' && group == '' && description == '' && $("#urgency_high").prop('checked') != true && $("#urgency_low").prop('checked') != true) {
-                alert("At least one field must be entered.");
-                return false;
-            }
+            // if (username == '' && firstname == '' && lastname == '' && phone == '' && group == '' && description == '' && $("#urgency_high").prop('checked') != true && $("#urgency_low").prop('checked') != true) {
+            //     alert("At least one field must be entered.");
+            //     return false;
+            // }
         }
         $(function(){
             $(".btn-response").click(function(){

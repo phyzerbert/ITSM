@@ -34,7 +34,11 @@
                         <div class="clearfix"></div>
                         <div class="col-md-12 mb-4">
                             <label>LastName</label>
-                            <input class="form-control" type="text" name="lastname" id="firstname" value="{{Auth::user()->lastname}}" />
+                            <input class="form-control" type="text" name="lastname" id="lastname" value="{{Auth::user()->lastname}}" />
+                        </div>
+                        <div class="col-md-12 mb-4">
+                            <label>Email Address</label>
+                            <input class="form-control" type="text" name="email" id="email" value="{{Auth::user()->email}}" />
                         </div>
                         
                         <div class="col-md-12 mb-4">
