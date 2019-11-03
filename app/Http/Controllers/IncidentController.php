@@ -37,6 +37,7 @@ class IncidentController extends Controller
         $user = Auth::user();
 
         $incident = Incident::create([
+            'reference_number' => mt_rand(100000, 999999),
             'user_id' => $user->id,
             'group_id' => $request->group_id,
             'category_id' => $request->category_id,

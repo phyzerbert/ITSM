@@ -51,7 +51,7 @@
                                                                                                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                                                                                     <tbody>
                                                                                                         <tr>
-                                                                                                            <td colspan="3"><h4>&nbsp;&nbsp;&nbsp;Ticket Reference : {{mt_rand(100000, 999999)}}</h4><br></td>
+                                                                                                            <td colspan="3"><h4>&nbsp;&nbsp;&nbsp;Ticket Reference : {{$incident->reference_number}}</h4><br></td>
                                                                                                         </tr>
                                                                                                         <tr>
                                                                                                             <td width="10"></td>

@@ -15,6 +15,7 @@ class CreateIncidentsTable extends Migration
     {
         Schema::create('incidents', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('reference_number')->nullable();
             $table->integer('user_id')->nullable();
             $table->integer('resolved_user_id')->nullable();
             $table->integer('group_id')->nullable();
