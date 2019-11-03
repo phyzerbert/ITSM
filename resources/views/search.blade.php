@@ -68,6 +68,9 @@
                                 </thead>
                                 <tbody>
                                     @foreach($incidents as $item)
+                                    @php
+                                        $item->update(['reference_number' => str_pad($incident->id, 6, '0', STR_PAD_LEFT)]);
+                                    @endphp
                                         <tr data-id={{$item->id}} style="cursor:pointer">
                                             <td class="link-comment">{{ $item->reference_number }}</td>
                                             <td class="username link-comment">{{$item->user->name ?? ''}}</td>
