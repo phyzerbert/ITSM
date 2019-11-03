@@ -104,7 +104,7 @@ class IncidentController extends Controller
             });
         }
 
-        $incidents = $incident_mod->orderBy('created_at', 'desc')->paginate(10);
+        $incidents = $incident_mod->orderBy('reference_number')->paginate(10);
         $current_page = 'search';
         if(null !== $request->get('page')){
             $page_number = $request->get('page');
